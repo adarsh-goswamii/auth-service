@@ -1,0 +1,2 @@
+class ErrorMessages:
+  """ Error messages """
