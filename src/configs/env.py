@@ -20,7 +20,7 @@ class AppDBConfig(DBConfig):
   App DB config
   """
   db_host: str = os.getenv("DB_HOST", "localhost")
-  db_name: str = os.getenv("DB_NAME", "postgres")
+  db_name: str = os.getenv("DB_NAME", "secure")
   db_username: str = os.getenv("DB_USERNAME", "admin")
   db_password: str = os.getenv("DB_PASSWORD", "admin")
   

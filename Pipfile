@@ -10,6 +10,7 @@ pydantic-settings = "*"
 fastapi = "*"
 python-dotenv = "*"
 alembic = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 uvicorn = "*"
