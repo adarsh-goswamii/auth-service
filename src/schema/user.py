@@ -12,3 +12,11 @@ class User(Base):
     name = Column(VARCHAR(255), nullable=False)
     email = Column(VARCHAR(100), nullable=False)
     password = Column(VARCHAR(100), nullable=False)
+
+    def dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "password": self.password
+        }

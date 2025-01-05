@@ -18,6 +18,11 @@ class CreateUserInbound(BaseModel):
             validate_password(password)
         return self
 
+class CreateUserOutbound(BaseModel):
+    id: int
+    name: str
+    email: str
+
 class UpdateUserInbound(BaseModel):
     name: Optional[Annotated[str, Field(max_length=255, min_length=2)]] = None
     password: Optional[str] = None

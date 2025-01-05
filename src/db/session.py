@@ -107,7 +107,7 @@ def delete(old_row):
     """method to delete"""
     db = get_db()
     try:
-        old_row.delete()
+        db.delete(old_row)
         db.commit()
     except Exception as e:
         db.rollback()
