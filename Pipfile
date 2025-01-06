@@ -12,6 +12,9 @@ alembic = "*"
 psycopg2-binary = "*"
 pydantic = {extras = ["email"], version = "*"}
 passlib = {extras = ["bcrypt"], version = "*"}
+pyjwt = "*"
+cryptography = "*"
+uuid = "*"
 
 [dev-packages]
 uvicorn = "*"
