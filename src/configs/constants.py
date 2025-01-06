@@ -12,3 +12,7 @@ class ErrorResponse(APIResponse):
 
 class Regex:
     password_regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+    domain_regex = r'^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$'
+
+class JWTExpirationTime:
+    """ In minutes """

@@ -1,4 +1,6 @@
 import re
+from configs.constants import Regex
+
 
 def validate_password(password: str) -> None:
     length = len(password)
@@ -13,8 +15,10 @@ def validate_password(password: str) -> None:
     if not any(char in "@$!%*?&" for char in password):
         raise ValueError("Password must contain at least one special character (@$!%*?&).")
 
-
 def validate_domain(domain: str) -> None:
-    domain_regex = r"^(?!\-)([a-zA-Z0-9\-]{1,63}(?<!\-)\.)+[a-zA-Z]{2,63}$"
-    if not re.match(domain_regex, domain):
-        raise ValueError("Invalid domain format.")
+    domain_regex = re.compile(Regex.domain_regex)
+    valid = re.match(domain_regex, domain)
+
+    if not valid:
+        raise ValueError("Domain is not valid.")
+ 

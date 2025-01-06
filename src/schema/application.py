@@ -1,4 +1,5 @@
 from datetime import datetime
+from wsgiref.util import application_uri
 
 from sqlalchemy import Column, ForeignKey, DateTime
 from sqlalchemy.dialects.mysql import BIGINT, VARCHAR
@@ -17,6 +18,19 @@ class Application(Base):
     name = Column(VARCHAR(255), nullable=False)
     application_id = Column(VARCHAR(255), default=None)
     application_secret = Column(VARCHAR(255), default=None)
-    public_key = Column(VARCHAR(255), default=None)
-    private_key = Column(VARCHAR(255), default=None)
+    public_key = Column(VARCHAR(5000), default=None)
+    private_key = Column(VARCHAR(5000), default=None)
     added_at = Column(DateTime, default=datetime.utcnow())
+
+    def dict(self):
+        return {
+            "id": self.id,
+            "client_id": self.client_id,
+            "domain": self.domain,
+            "name": self.name,
+            "application_id": self.application_id,
+            "application_secret": self.application_secret,
+            "public_key": self.public_key,
+            "private_key": self.private_key,
+            "added_at": self.added_at
+        }
