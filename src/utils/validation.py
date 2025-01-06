@@ -21,3 +21,4 @@ def validate_domain(domain: str) -> None:
 
     if not valid:
         raise ValueError("Domain is not valid.")
+ 

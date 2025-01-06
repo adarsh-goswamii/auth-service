@@ -4,7 +4,7 @@ from wsgiref.util import application_uri
 from sqlalchemy import Column, ForeignKey, DateTime
 from sqlalchemy.dialects.mysql import BIGINT, VARCHAR
 
-from configs.db_constants import DBTables, DBConfig
+from src.configs.db_constants import DBTables, DBConfig
 from src.schema.main import Base
 
 

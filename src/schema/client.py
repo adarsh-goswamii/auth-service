@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, BIGINT, VARCHAR, DateTime
 
-from configs.db_constants import DBTables, DBConfig
+from src.configs.db_constants import DBTables, DBConfig
 from src.schema.main import Base
 
 class Client(Base):
@@ -15,3 +15,10 @@ class Client(Base):
     password = Column(VARCHAR(100), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow())
 
+    def dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "domain": self.domain,
+            "password": self.password
+        }
