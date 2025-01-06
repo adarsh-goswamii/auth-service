@@ -23,13 +23,15 @@ class AppDBConfig(DBConfig):
   db_name: str = os.getenv("DB_NAME", "secure")
   db_username: str = os.getenv("DB_USERNAME", "admin")
   db_password: str = os.getenv("DB_PASSWORD", "admin")
-  
+
 class BaseConfig(BaseSettings):
   """
   Base Config
   """
   env: str = os.getenv("APP_ENV", "local")
   db_app: ClassVar[DBConfig] = AppDBConfig
+
+  private_key_for_auth_code: str = os.getenv("PRIVATE_KEY_FOR_AUTH_CODE")
   
 
 """

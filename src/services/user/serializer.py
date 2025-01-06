@@ -38,12 +38,5 @@ class LoginUserInbound(BaseModel):
     email: EmailStr
     password: str
 
-    @model_validator(mode="after")
-    def validate_password(self):
-        password = self.password
-        if password:
-            validate_password(password)
-        return self
-
 class DeleteUserInbound(BaseModel):
     email: EmailStr

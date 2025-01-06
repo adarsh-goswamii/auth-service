@@ -4,7 +4,8 @@ from fastapi import Request
 
 from configs.error_constants import ErrorMessages
 from lib.cryptography import cryptography
-from src.schema.main import Client, Application
+from src.schema.client import Client
+from src.schema.application import Application
 from db.session import get_db, select_first, save_new_row
 from services.application.serializer import AddApplicationInbound, AddApplicationOutbound
 from utils.response import error_response, success_response

@@ -13,7 +13,8 @@ async def create_user(request: Request, payload: CreateUserInbound):
 async def update_user(request: Request, payload: UpdateUserInbound):
     return await UserController.update_user(request, payload)
 
-@router.get("/login")
+@router.post(
+    "/login")
 async def login_user(request: Request, payload: LoginUserInbound):
     return await UserController.validate_user(request, payload)
 

@@ -1,3 +1,5 @@
+from secrets import token_urlsafe
+
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
@@ -46,6 +48,10 @@ class Cryptography:
         )
         secret_key = kdf.derive(os.urandom(16))  # Derive a key
         return base64.urlsafe_b64encode(secret_key).decode("utf-8")
+
+    @classmethod
+    def generate_random_string(cls, length: int = 16):
+        return token_urlsafe(length)
 
 
 cryptography = Cryptography()
