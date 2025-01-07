@@ -1,7 +1,8 @@
 from sqlalchemy import Column, BIGINT, VARCHAR, DateTime, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 
-from configs.db_constants import DBTables, DBConfig
-from src.schema.main import Base
+from src.configs.db_constants import DBTables, DBConfig
+from .main import Base
 
 
 class AuthorisationCode(Base):
@@ -12,6 +13,8 @@ class AuthorisationCode(Base):
     code = Column(VARCHAR(32), unique=True, nullable=False)
     user_id = Column(Integer, ForeignKey(f'{DBConfig.SCHEMA_NAME}.{DBTables.USER}.id'), nullable=False)
     expires_at = Column(DateTime, nullable=False)
+
+    user = relationship('User', back_populates='authorisation_codes')
 
     # client_id = Column(Integer, ForeignKey('clients.id'), nullable=False)
     # scope = Column(String(255), nullable=True)

@@ -16,3 +16,5 @@ class Regex:
 
 class JWTExpirationTime:
     """ In minutes """
+    access_token_expiration = 60
+    refresh_token_expiration = 24 * 60

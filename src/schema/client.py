@@ -2,8 +2,8 @@ from datetime import datetime
 
 from sqlalchemy import Column, BIGINT, VARCHAR, DateTime
 
-from configs.db_constants import DBTables, DBConfig
-from src.schema.main import Base
+from src.configs.db_constants import DBTables, DBConfig
+from .main import Base
 
 class Client(Base):
     __tablename__ = DBTables.CLIENT

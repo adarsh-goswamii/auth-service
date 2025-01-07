@@ -1,15 +1,14 @@
 from datetime import datetime, timedelta
 
-from configs.env import get_settings
-from configs.error_constants import ErrorMessages
-from db.session import get_db, save_new_row, delete, select_first
-from lib.bcrypt import bcrypt
-from lib.cryptography import cryptography
-from lib.jwt import jwt
-from schema.auth_code import AuthorisationCode
-from services.user.serializer import CreateUserInbound, CreateUserOutbound, DeleteUserInbound, LoginUserInbound
+from src.configs.env import get_settings
+from src.configs.error_constants import ErrorMessages
+from src.db.session import get_db, save_new_row, delete, select_first
+from src.lib.bcrypt import bcrypt
+from src.lib.cryptography import cryptography
+from src.schema.auth_code import AuthorisationCode
+from src.services.user.serializer import CreateUserInbound, CreateUserOutbound, DeleteUserInbound, LoginUserInbound
 from src.schema.user import User
-from utils.response import success_response, error_response
+from src.utils.response import success_response, error_response
 
 config = get_settings()
 
