@@ -4,16 +4,18 @@ from fastapi import Request
 from starlette.responses import JSONResponse
 
 from src.configs.constants import JWTExpirationTime
+from src.exceptions.errors.generic import JWTExpiredTokenException, JWTInvalidTokenException
 from src.lib.bcrypt import bcrypt
 from src.lib.cryptography import cryptography
 from src.lib.jwt import jwt_token
 
 from src.configs.error_constants import ErrorMessages
-from src.db.session import get_db, select_first, delete, save_new_row
+from src.db.session import get_db, select_first, delete, save_new_row, update_old_row
 from src.schema.application import Application
+from src.schema.refresh_token import RefreshToken
 from src.schema.session import Session
 from src.schema.user import User
-from src.services.oauth.serializer import GetAccessTokenInbound, LoginUserInbound
+from src.services.oauth.serializer import GetAccessTokenInbound, LoginUserInbound, RefreshTokenInbound
 from src.schema.auth_code import AuthorisationCode
 from src.utils.response import error_response, success_response
 from cryptography.hazmat.primitives import serialization
@@ -92,9 +94,40 @@ class OauthController:
                                               data={"name": auth_code.user.name, "email": auth_code.user.email},
                                               expiration_minutes=JWTExpirationTime.access_token_expiration)
 
-        refresh_token = jwt_token.generate_jwt(private_key=private_key,
-                                               data={},
-                                               expiration_minutes=JWTExpirationTime.refresh_token_expiration)
+        refresh_token = cryptography.generate_random_string()
+        hashed_refresh_token = cryptography.hash_key(refresh_token)
+        refresh_token_expiration = datetime.utcnow() + timedelta(minutes=JWTExpirationTime.refresh_token_expiration)
+        query = RefreshToken(token=hashed_refresh_token, user_id=auth_code.user.id, application_id=application.id,
+                             issued_at=datetime.utcnow(), expires_at=refresh_token_expiration)
 
+        save_new_row(query)
         delete(auth_code)
+
         return success_response(data={"access_token": access_token, "refresh_token": refresh_token})
+
+    @classmethod
+    async def refresh_token(cls, request: Request, payload: RefreshTokenInbound):
+        db = get_db()
+        hash_refresh_token = cryptography.hash_key(payload.refresh_token)
+        token_query = db.query(RefreshToken).filter(RefreshToken.token == hash_refresh_token)
+        refresh_token = select_first(token_query)
+
+        if not refresh_token or payload.application_id != refresh_token.application.application_id:
+            raise JWTInvalidTokenException
+
+        if refresh_token.expires_at < datetime.utcnow():
+            raise JWTExpiredTokenException
+
+        access_token = jwt_token.generate_jwt(private_key=refresh_token.application.private_key,
+                                              data={"name": refresh_token.user.name,
+                                                    "email": refresh_token.user.email},
+                                              expiration_minutes=JWTExpirationTime.access_token_expiration)
+
+        new_refresh_token = cryptography.generate_random_string()
+        refresh_token.token = cryptography.hash_key(new_refresh_token)
+        refresh_token.expires_at = datetime.utcnow() + timedelta(minutes=JWTExpirationTime.refresh_token_expiration)
+
+        update_old_row(refresh_token)
+
+        return success_response(data={ 'access_token': access_token, 'refresh_token': new_refresh_token })
+

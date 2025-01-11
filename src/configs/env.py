@@ -32,7 +32,8 @@ class BaseConfig(BaseSettings):
   db_app: ClassVar[DBConfig] = AppDBConfig
 
   private_key_for_auth_code: str = os.getenv("PRIVATE_KEY_FOR_AUTH_CODE")
-  
+  hmac_key: str = os.getenv("HMAC_KEY")
+
 
 """
 lru_cache: caches the output of a function for a given input,

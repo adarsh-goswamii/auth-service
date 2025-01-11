@@ -15,6 +15,7 @@ class User(Base):
     password = Column(VARCHAR(100), nullable=False)
 
     authorisation_codes = relationship('AuthorisationCode', back_populates='user')
+    refresh_tokens = relationship('RefreshToken', back_populates="user")
 
     def dict(self):
         return {

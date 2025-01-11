@@ -3,6 +3,7 @@ from wsgiref.util import application_uri
 
 from sqlalchemy import Column, ForeignKey, DateTime
 from sqlalchemy.dialects.mysql import BIGINT, VARCHAR
+from sqlalchemy.orm import relationship
 
 from src.configs.db_constants import DBTables, DBConfig
 from .main import Base
@@ -21,6 +22,8 @@ class Application(Base):
     public_key = Column(VARCHAR(5000), default=None)
     private_key = Column(VARCHAR(5000), default=None)
     added_at = Column(DateTime, default=datetime.utcnow())
+
+    refresh_tokens = relationship('RefreshToken', back_populates="application")
 
     def dict(self):
         return {

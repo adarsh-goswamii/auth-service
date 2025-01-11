@@ -9,3 +9,4 @@ def import_schemas():
     import src.schema.client
     import src.schema.application
     import src.schema.session
+    import src.schema.refresh_token

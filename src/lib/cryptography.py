@@ -1,13 +1,16 @@
+import os
+import base64
 from secrets import token_urlsafe
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives import serialization
-import os
-import base64
-
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.hmac import HMAC
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 
+from src.configs.env import get_settings
+
+settings = get_settings()
 
 class Cryptography:
     @classmethod
@@ -52,6 +55,12 @@ class Cryptography:
     @classmethod
     def generate_random_string(cls, length: int = 16):
         return token_urlsafe(length)
+
+    @classmethod
+    def hash_key(cls, key: str):
+        h = HMAC(settings.hmac_key.encode(), hashes.SHA256())
+        h.update(key.encode())
+        return h.finalize().hex()
 
 
 cryptography = Cryptography()

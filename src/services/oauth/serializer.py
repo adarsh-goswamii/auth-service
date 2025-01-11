@@ -7,3 +7,7 @@ class GetAccessTokenInbound(BaseModel):
 class LoginUserInbound(BaseModel):
     email: EmailStr
     password: str
+
+class RefreshTokenInbound(BaseModel):
+    refresh_token: str
+    application_id: str
