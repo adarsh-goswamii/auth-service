@@ -34,9 +34,5 @@ class UpdateUserInbound(BaseModel):
             validate_password(password)
         return self
 
-class LoginUserInbound(BaseModel):
-    email: EmailStr
-    password: str
-
 class DeleteUserInbound(BaseModel):
     email: EmailStr

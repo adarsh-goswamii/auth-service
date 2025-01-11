@@ -8,3 +8,4 @@ def import_schemas():
     import src.schema.user
     import src.schema.client
     import src.schema.application
+    import src.schema.session
